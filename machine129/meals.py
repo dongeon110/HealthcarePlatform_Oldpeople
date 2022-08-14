@@ -1,8 +1,9 @@
 import glob
 import pandas as pd
 import time
-import pymysql
+# import pymysql
 import numpy as np
+import psycopg2
 
 """
 __init__(self) : google cloud platform에 있는 mysql DB에 접속 할 수 있습니다.
@@ -18,10 +19,10 @@ label_to_meals(self, path, id="") : 저희가 객체탐지를 하기 위해 넣�
 
 class meals():
     def __init__(self):
-        self.conn = pymysql.connect(user='root', passwd='1234', host='34.64.195.167', db='mydb129', charset='utf8')
+        self.conn = psycopg2.connect(user='root', password='admin', db='knufinal', charset='utf8')
 
     def select_query(self, query):
-        cur = self.conn.cursor(pymysql.cursors.DictCursor)
+        cur = self.conn.cursor(psycopg2.cursors.DictCursor)
         try:
             cur.execute(query)
             dic_result = cur.fetchall()
@@ -96,7 +97,7 @@ class meals():
         self.conn.close()
 
     def dis_results_input(self, dis_results_dic, id):
-        cur = self.conn.cursor(pymysql.cursors.DictCursor)
+        cur = self.conn.cursor(psycopg2.cursors.DictCursor)
         try:
             cur.execute(f'SELECT cnt FROM dis_results WHERE user_id = {id} ORDER BY cnt DESC;')
             dic_result = cur.fetchall()
@@ -163,7 +164,7 @@ class meals():
     def dis_food(self, id, conf=0.5, recent = 1, str=False):
         # id에 맞는 최근 질병탐지 기록 가져오기 (result_row)
         # recent = 최근 기준 첫번째 1 / 두번째 2 ...
-        cur = self.conn.cursor(pymysql.cursors.DictCursor)
+        cur = self.conn.cursor(psycopg2.cursors.DictCursor)
         try:
             cur.execute(f'SELECT * FROM dis_results WHERE user_id = {id} ORDER BY cnt DESC;')
             dic_result = cur.fetchall()
@@ -196,7 +197,7 @@ class meals():
                 select_query += f'disease_code = "{column}" or '
             select_query = select_query.rstrip(' or ')
 
-        cur = self.conn.cursor(pymysql.cursors.DictCursor)
+        cur = self.conn.cursor(psycopg2.cursors.DictCursor)
         cur.execute(select_query)
         dis_table = cur.fetchall()
         dis_df = pd.DataFrame(dis_table)
@@ -232,7 +233,7 @@ class meals():
         return bad_food_list_int
 
     def meals_to_3nutrient(self, id, recent = 1):
-        cur = self.conn.cursor(pymysql.cursors.DictCursor)
+        cur = self.conn.cursor(psycopg2.cursors.DictCursor)
         try:
             cur.execute(f'SELECT * FROM meals WHERE user_id = {id} ORDER BY date_time DESC;')
             dic_result = cur.fetchall()
@@ -249,7 +250,7 @@ class meals():
         return dict_result
 
     def insert_df(self, df, table, id = ""):
-        cur = self.conn.cursor(pymysql.cursors.DictCursor)
+        cur = self.conn.cursor(psycopg2.cursors.DictCursor)
         id = str(int(id))
         try:
             cur.execute(f'SELECT cnt FROM dis_results WHERE user_id = {id} ORDER BY cnt DESC;')
