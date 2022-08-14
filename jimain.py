@@ -40,99 +40,17 @@ SURVEY_URL = "/survey"
 DETECTION_URL = "/predict"
 SESSION_LIFETIME = 2000
 
-# from keras import models
-# file = open('data/models/DI2_DG.pkl','rb')
-# clf1 = pickle.load(file)
-# file.close()
 
-# file = open('data/models/DI3_DG.pkl','rb')
-# clf2 = pickle.load(file)
-# file.close()
-
-# file = open('data/models/DI4_DG.pkl','rb')
-# clf3 = pickle.load(file)
-# file.close()
-
-# file = open('data/models/DI5_DG.pkl','rb')
-# clf4 = pickle.load(file)
-# file.close()
-
-# file = open('data/models/DM2_DG.pkl','rb')
-# clf5 = pickle.load(file)
-# file.close()
-
-# file = open('data/models/DM3_DG.pkl','rb')
-# clf6 = pickle.load(file)
-# file.close()
-
-# file = open('data/models/DM4_DG.pkl','rb')
-# clf7 = pickle.load(file)
-# file.close()
-
-# file = open('data/models/DJ2_DG.pkl','rb')
-# clf8 = pickle.load(file)
-# file.close()
-
-# file = open('data/models/DJ4_DG.pkl','rb')
-# clf9 = pickle.load(file)
-# file.close()
-
-# file = open('data/models/DJ6_DG.pkl','rb')
-# clf10 = pickle.load(file)
-# file.close()
-
-# file = open('data/models/DJ8_DG.pkl','rb')
-# clf11 = pickle.load(file)
-# file.close()
-
-# file = open('data/models/DI6_DG.pkl','rb')
-# clf12 = pickle.load(file)
-# file.close()
-
-# file = open('data/models/DF2_DG.pkl','rb')
-# clf13 = pickle.load(file)
-# file.close()
-
-# file = open('data/models/DL1_DG.pkl','rb')
-# clf14 = pickle.load(file)
-# file.close()
-
-# file = open('data/models/DE1_DG.pkl','rb')
-# clf15 = pickle.load(file)
-# file.close()
-
-# file = open('data/models/DE2_DG.pkl','rb')
-# clf16 = pickle.load(file)
-# file.close()
-
-# file = open('data/models/DH4_DG.pkl','rb')
-# clf17 = pickle.load(file)
-# file.close()
-
-# file = open('data/models/DC1_DG.pkl','rb')
-# clf18 = pickle.load(file)
-# file.close()
-
-# file = open('data/models/DC3_DG.pkl','rb')
-# clf19 = pickle.load(file)
-# file.close()
-
-# file = open('data/models/DK8_DG.pkl','rb')
-# clf20 = pickle.load(file)
-# file.close()
-
+# Flask, User 정보는 SQLite
 app = Flask(__name__, static_url_path='/static')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user.db'
 app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=SESSION_LIFETIME) # 로그인 지속시간을 정합니다. 현재 1분
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True #사용자에게 정보 전달완료하면 teadown. 그 때마다 커밋=DB반영
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True # 사용자에게 정보 전달완료하면 teadown. 그 때마다 커밋=DB반영
 
 
 db = SQLAlchemy(app)
 cors = CORS(app)
-
-
-
 
 class User(db.Model):
     """ Create user table"""
@@ -220,7 +138,6 @@ def register():
         db.session.commit()
         return render_template('home.html')
     return render_template('register.html')
-# render_tem
 
  
 @app.route("/logout")
@@ -229,156 +146,6 @@ def logout():
     session['logged_in'] = False
     return redirect(url_for('home'))
 
-# login_css form 위치 login/ register 별로 바꾸면 좋을듯
-
-##HOME, LOGIN, LOGOUT END POINT ##
-
-
-
- 
- 
-# @app.route(SURVEY_URL,methods=['GET','POST'])
-# def hello_world():
-#     if request.method == 'POST':
-#         mydict=request.form
-#         #mydict에서 문항 다 입력하고 거기서 
-
-#         LQ_3EQL = float(mydict['LQ_3EQL'])
-#         N_MUFA = float(mydict['N_MUFA'])
-#         TOTAL_SLP_WD = float(mydict['TOTAL_SLP_WD'])
-#         HE_BMI = float(mydict['HE_BMI'])
-#         N_PHOS = float(mydict['N_PHOS'])
-#         BD1_11 = float(mydict['BD1_11'])
-#         HE_WT = float(mydict['HE_WT'])
-#         BP1 = float(mydict['BP1'])
-#         N_FAT = float(mydict['N_FAT'])
-#         BH1 = float(mydict['BH1'])
-#         AGE = float(mydict['AGE'])
-#         N_CAROT = float(mydict['N_CAROT'])
-#         BS13 = float(mydict['BS13'])
-#         N_INTK = float(mydict['N_INTK'])
-#         N_EN = float(mydict['N_EN'])
-#         LQ_5EQL = float(mydict['LQ_5EQL'])
-#         BE3_85 = float(mydict['BE3_85'])
-#         N_WATER = float(mydict['N_WATER'])
-#         HE_HT = float(mydict['HE_HT'])
-#         N_CHOL = float(mydict['N_CHOL'])
-#         N_NA = float(mydict['N_NA'])
-#         N_PROT = float(mydict['N_PROT'])
-#         SEX = int(mydict['SEX'])
-#         BP7 = float(mydict['BP7'])
-#         LQ_2EQL = float(mydict['LQ_2EQL'])
-#         HE_DBP = float(mydict['HE_DBP'])
-#         LQ_1EQL = float(mydict['LQ_1EQL'])
-#         BE3_81 = float(mydict['BE3_81'])
-#         N_SFA = float(mydict['N_SFA'])
-#         HE_RPLS = float(mydict['HE_RPLS'])
-#         N_SUGAR = float(mydict['N_SUGAR'])
-#         SM_PRESNT = float(mydict['SM_PRESNT'])
-#         L_BR_FQ = float(mydict['L_BR_FQ'])
-#         HE_FH = float(mydict['HE_FH'])
-#         LQ_4EQL = float(mydict['LQ_4EQL'])
-#         MH_STRESS = float(mydict['MH_STRESS'])
-#         LQ4_00 = float(mydict['LQ4_00'])
-
-
-        
-#         DI2_DG_LIST = [SEX, HE_FH, HE_BMI,BH1,AGE,HE_HT,BD1_11,BP1,LQ_4EQL]
-#         DI3_DG_LIST = [LQ_3EQL,LQ_1EQL,LQ_2EQL,HE_RPLS,LQ_4EQL,AGE,LQ4_00,N_PHOS,N_PROT]
-#         DI4_DG_LIST = [HE_RPLS,HE_WT,HE_DBP,LQ_3EQL,SEX,HE_BMI,AGE,HE_HT,HE_FH,BE3_81]
-#         DI4_DG_LIST = [HE_RPLS,HE_WT,HE_DBP,HE_DBP,LQ_3EQL,SEX,HE_BMI,AGE,HE_HT,HE_FH]
-#         DI5_DG_LIST = [SEX,AGE,HE_DBP,HE_DBP,HE_HT,HE_WT,BS13,HE_RPLS,BE3_81]
-#         DM2_DG_LIST = [SEX,HE_HT,LQ_4EQL,LQ_1EQL,LQ_3EQL,HE_BMI,BD1_11,LQ4_00,N_EN,LQ_5EQL]
-#         DM3_DG_LIST = [SEX, LQ_4EQL,HE_HT,LQ_1EQL,MH_STRESS,N_NA,HE_WT,LQ_3EQL,N_EN,LQ4_00]
-#         DM4_DG_LIST = [SEX,HE_HT,HE_WT,BD1_11,N_EN,LQ_4EQL,N_PROT,N_PHOS,N_NA]
-#         DJ2_DG_LIST = [HE_BMI,HE_HT,SEX,AGE,BE3_85,HE_FH,N_CHOL,N_MUFA,N_FAT,L_BR_FQ]
-#         DJ4_DG_LIST = [LQ_4EQL, LQ_3EQL,LQ_5EQL,LQ_1EQL,AGE,MH_STRESS,BD1_11,HE_HT,N_INTK]
-#         DJ6_DG_LIST = [BP1,LQ_5EQL,LQ_4EQL,N_CAROT,BE3_81,BH1,BP7,N_SUGAR]
-#         DJ8_DG_LIST = [BP7,AGE,BP1,SM_PRESNT,MH_STRESS,N_CAROT,N_WATER,HE_FH]
-#         DI6_DG_LIST = [HE_RPLS,LQ_3EQL,HE_DBP,HE_DBP,LQ_4EQL,HE_WT,LQ4_00,HE_BMI,LQ_5EQL,AGE]
-#         DF2_DG_LIST = [BP7,LQ_5EQL,BP1,SEX,MH_STRESS,LQ4_00,LQ_4EQL,HE_HT,BD1_11,LQ_1EQL]
-#         DL1_DG_LIST = [LQ_5EQL, LQ_4EQL, BP7, LQ_3EQL, BS13, BE3_85, BP1]
-#         DE1_DG_LIST = [HE_DBP, HE_DBP, HE_BMI, HE_WT, HE_FH, LQ_2EQL, LQ_1EQL, N_SUGAR, LQ_3EQL, N_SFA]
-#         DE2_DG_LIST = [SEX,AGE,HE_FH,BP1,BD1_11,SM_PRESNT,HE_HT,MH_STRESS,LQ_4EQL,HE_WT]
-#         DH4_DG_LIST = [LQ4_00,LQ_3EQL,BP1,BP7,MH_STRESS,LQ_4EQL,HE_FH,TOTAL_SLP_WD]
-#         DC1_DG_LIST = [HE_BMI,SEX,HE_HT,BH1,AGE,LQ_4EQL,HE_WT,HE_DBP,HE_DBP,L_BR_FQ]
-#         DC3_DG_LIST = [SEX, BH1, HE_HT, N_MUFA, N_SFA, N_FAT, N_CHOL]
-#         DK8_DG_LIST = [AGE,N_WATER,HE_HT,L_BR_FQ,SM_PRESNT,N_SUGAR,TOTAL_SLP_WD,N_INTK]
-
- 
-#         #input_feature=[100,1,45,1,1,0]
-        
-        
-#         infprob1 = clf1.predict_proba([DI2_DG_LIST])[0][1]
-#         infprob2 = clf2.predict_proba([DI3_DG_LIST])[0][1]
-#         infprob3 = clf3.predict_proba([DI4_DG_LIST])[0][1] 
-#         infprob4 = clf4.predict_proba([DI5_DG_LIST])[0][1]
-#         infprob5 = clf5.predict_proba([DM2_DG_LIST])[0][1]
-#         infprob6 = clf6.predict_proba([DM3_DG_LIST])[0][1] 
-#         infprob7 = clf7.predict_proba([DM4_DG_LIST])[0][1]
-#         infprob8 = clf8.predict_proba([DJ2_DG_LIST])[0][1]
-#         # infprob9 = clf9.predict_proba([DJ4_DG_LIST])[0][1] 
-#         infprob9 = 0.21
-#         infprob10 = clf10.predict_proba([DJ6_DG_LIST])[0][1]
-#         infprob11 = clf11.predict_proba([DJ8_DG_LIST])[0][1]
-#         infprob12 = clf12.predict_proba([DI6_DG_LIST])[0][1] 
-#         infprob13 = clf13.predict_proba([DF2_DG_LIST])[0][1]
-#         infprob14 = clf14.predict_proba([DL1_DG_LIST])[0][1]
-#         infprob15 = clf15.predict_proba([DE1_DG_LIST])[0][1] 
-#         infprob16 = clf16.predict_proba([DE2_DG_LIST])[0][1]
-#         infprob17 = clf17.predict_proba([DH4_DG_LIST])[0][1]
-#         infprob18 = clf18.predict_proba([DC1_DG_LIST])[0][1] 
-#         infprob19 = clf19.predict_proba([DC3_DG_LIST])[0][1]
-#         infprob20 = clf20.predict_proba([DK8_DG_LIST])[0][1]
-
-#         # results list
-#         dis_results = {'DI2_DG':(round(infprob1*100,2)),
-#         'DI3_DG':(round(infprob2*100,2)),
-#         'DI4_DG':(round(infprob3*100,2)),
-#         'DI5_DG':(round(infprob4*100,2)),
-#         'DM2_DG':(round(infprob5*100,2)),
-#         'DM3_DG':(round(infprob6*100,2)),
-#         'DM4_DG':(round(infprob7*100,2)),
-#         'DJ2_DG':(round(infprob8*100,2)),
-#         'DJ4_DG':(round(infprob9*100,2)),
-#         'DJ6_DG':(round(infprob10*100,2)),
-#         'DJ8_DG':(round(infprob11*100,2)),
-#         'DI6_DG':(round(infprob12*100,2)),
-#         'DF2_DG':(round(infprob13*100,2)),
-#         'DL1_DG':(round(infprob14*100,2)),
-#         'DE1_DG':(round(infprob15*100,2)),
-#         'DE2_DG':(round(infprob16*100,2)),
-#         'DH4_DG':(round(infprob17*100,2)),
-#         'DC1_DG':(round(infprob18*100,2)),
-#         'DC3_DG':(round(infprob19*100,2)),
-#         'DK8_DG':(round(infprob20*100,2))
-#         }
-#         current_user = session.get('name')
-#         result_db = meals.meals()
-#         result_db.dis_results_input(dis_results_dic = dis_results, id = str(current_user))
-#         result_db.db_close()
-
-#         return render_template('disease_result.html',inf1=(round(infprob1*100,2)), inf2 = (round(infprob2*100,2)), inf3 = (round(infprob3*100,2)),
-#                                inf4 = (round(infprob4*100,2)),
-# inf5 = (round(infprob5*100,2)),
-# inf6 = (round(infprob6*100,2)),
-# inf7 = (round(infprob7*100,2)),
-# inf8 = (round(infprob8*100,2)),
-# inf9 = (round(infprob9*100,2)),
-# inf10 = (round(infprob10*100,2)),
-# inf11 = (round(infprob11*100,2)),
-# inf12 = (round(infprob12*100,2)),
-# inf13 = (round(infprob13*100,2)),
-# inf14 = (round(infprob14*100,2)),
-# inf15 = (round(infprob15*100,2)),
-# inf16 = (round(infprob16*100,2)),
-# inf17 = (round(infprob17*100,2)),
-# inf18 = (round(infprob18*100,2)),
-# inf19 = (round(infprob19*100,2)),
-# inf20 = (round(infprob20*100,2))
-# )
-   
-#     return render_template('index.html')
 
 @app.route('/survey')
 def survey():
@@ -681,32 +448,6 @@ def predict():
             LOGGER.info(f"Results saved to {colorstr('bold', save_dir)}{s}")
 
 
-
-        # machine129_dic = {'jabgogbab':'잡곡밥', 'baechugimchi':'배추김치', 'doenjangjjigae':'된장찌개',
-        #         'gimchijjigae':'김치찌개', 'myeolchibokk-eum':'멸치볶음', 'Sigeumchinamul':'시금치나물', 
-        #         'gajinamul':'가지나물', 'gosalinamul':'고사리나물', 'miyeoggug':'미역국',
-        #         'gimbab':'김밥', 'bulgogi':'불고기', 'aehobagbokk-eum':'애호박볶음',
-        #         'musaengchae':'무생채', 'jabchae':'잡채', 'mugug':'무국', 
-        #         'godeung-eogu-i':'고등어구이', 'ssalbab':'쌀밥', 'gyelanhulai':'계란후라이',
-        #         'gyelanmal-i':'계란말이'}
-
-        # for i in range(len(results.pandas().xyxy[0]['name'])):
-        #     results.pandas().xyxy[0]['name'][i] = machine129_dic[results.pandas().xyxy[0]['name'][i]]
-
-        # cl_machine129 = translabel.tl_class()
-        # data = cl_machine129.translabel(data).to_json(orient="records")
-
-        # for debugging
-        # data = results.pandas().xyxy[0].to_json(orient="records")
-        # return data
-
-        # results.render()  # updates results.imgs with boxes and labels
-        # for img in results.imgs:
-        #     img_base64 = Image.fromarray(img)
-        #     img_base64.save("static/image0.jpg", format="JPEG")
-        # with open('static/sample.json', 'w') as outfile:
-        #     json.dump(data, outfile)
-
         db_meals = meals.meals()
         txt_label_path = f"static/detect/{name}/labels/image1.txt"
         current_user = session.get('name')
@@ -757,6 +498,8 @@ def mypage():
     meals_date = df.head(1)['date_time'][0]
     db.db_close()
     db2.db_close()
+
+    
     # 1. 최근식단의 [탄, 단, 지] 값 // youngyangso
     # 2. 50이 넘는 [질병명, 질병확률] // over_50
     # 3. 피해야 할 [음식명] // bad_food
